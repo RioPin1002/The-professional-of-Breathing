@@ -39,6 +39,8 @@ def main():
         hale[num, 0] = random.randint(10, 15) * 100 #画面外にランダムでx座標を獲得
         hale[num, 1] = 230
         hale[num, 2] = random.randint(1, 2) #1は吸 2は吐
+    
+    hale_op = hale
         
     print(hale)
 
@@ -58,7 +60,7 @@ def main():
 
 
         #最もヒットスポットと近いhaleを計算
-        filtered_values = hale[hale[:, 0] >= 150, 0]
+        filtered_values = hale_op[hale[:, 0] >= 150, 0]
         closest_to_150_value = filtered_values[np.argmin(np.abs(filtered_values - 150))]
         row_number = np.where(hale[:, 0] == closest_to_150_value)[0][0]
 
@@ -70,6 +72,13 @@ def main():
             if (wKey == True & int(hale[row_number, 2]) == 1) | (sKey == True & int(hale[row_number, 2]) == 0):
                 score += 50
                     
+        for num in range(spawnSum):
+            if hale[num, 2] == 1:
+                screen.blit(inhaleText, (hale[num, 0], hale[num, 1]))
+            if hale[num, 2] == 2:
+                screen.blit(exhaleText, (hale[num, 0], hale[num, 1]))
+
+
 
         #haleの速度調整
         for num in range(spawnSum):
@@ -79,9 +88,7 @@ def main():
                 hale[num, 1] = 230
                 hale[num, 2] = random.randint(1, 2) #1は吸 2は吐
 
-
-        wKey = False
-        sKey = False
+    
 
 
         # 画面を更新 --- (*4)
